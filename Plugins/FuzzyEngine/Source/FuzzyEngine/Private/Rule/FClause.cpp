@@ -1,24 +1,17 @@
 #include "Rule/FClause.h"
 #include "Variable/FVariable.h"
-#include "Term/UTerm.h"
-#include "Modifier/UModifier.h"
+#include "Term/ITerm.h"
+#include "Modifier/Modifier.h"
 
 float FClause::Evaluate() const
 {
-	if (!Variable || !Term)
-	{
-		return 0.f;
-	}
+    if (!Variable || !Term) { return 0.f; }
 
-	float Mu = Term->Evaluate(Variable->GetInput());
+    float Mu = ITerm::Execute_Evaluate(Term, Variable->GetInput());
 
-	// применяем модификаторы по порядку
-	for (const TObjectPtr<UModifier>& Mod : Modifiers)
-	{
-		if (Mod)
-		{
-			Mu = Mod->Modify(Mu);
-		}
-	}
-	return Mu;
+    for (UModifier* Mod : Modifiers)
+    {
+        if (Mod) { Mu = Mod->Apply(Mu); }
+    }
+    return Mu;
 }

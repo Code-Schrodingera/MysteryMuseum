@@ -1,12 +1,12 @@
 ﻿#include "Rule/FRule.h"
 #include "Variable/FVariable.h"
-#include "Term/UTerm.h"
-#include "Aggregation/MinAggregator.h"
+#include "Term/ITerm.h"
+#include "Aggregation/MinAggregation.h"
 #include "Accumulation/MaxAccumulation.h"
 
-float UFR​ule::EvaluateAntecedent() const
+float UFRule::EvaluateAntecedent() const
 {
-	const UMinAggregator* MinAgg = GetDefault<UMinAggregator>();
+	const UMinAggregation* MinAgg = GetDefault<UMinAggregation>();
 	const UMaxAccumulation* MaxAgg = GetDefault<UMaxAccumulation>();
 
 	float Acc = 1.f;              // нейтральное для AND
@@ -30,7 +30,7 @@ float UFR​ule::EvaluateAntecedent() const
 	return Acc;
 }
 
-void UFR​ule::UpdateSamples() const
+void UFRule::UpdateSamples() const
 {
 	if (!ConsequentTerm)
 	{
@@ -46,13 +46,13 @@ void UFR​ule::UpdateSamples() const
 	for (int32 i = 0; i < 100; ++i)
 	{
 		const float X = MinX + i * Step;
-		const float Mu = ConsequentTerm->Evaluate(X);
+		const float Mu = ITerm::Execute_Evaluate(X);
 		CachedSamples.Add({ X, Mu });
 	}
 	bSamplesDirty = false;
 }
 
-const TArray<TPair<float, float>>& UFR​ule::GetConsequentSamples() const
+const TArray<TPair<float, float>>& UFRule::GetConsequentSamples() const
 {
 	if (bSamplesDirty)
 	{

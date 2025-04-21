@@ -1,15 +1,19 @@
-#pragma once
+﻿#pragma once
 
 #include "UObject/Interface.h"
 #include "ITerm.generated.h"
 
 UINTERFACE(MinimalAPI, BlueprintType)
-class UTerm : public UInterface { GENERATED_BODY() };
+class UTerm : public UInterface
+{
+    GENERATED_BODY()
+};
 
-class ITerm
+/** Любая функция принадлежности */
+class FUZZYENGINE_API ITerm
 {
     GENERATED_BODY()
 public:
-    UFUNCTION(BlueprintNativeEvent, BlueprintPure, Category = "Fuzzy|Term")
-        float Evaluate(float X) const;   // �(x)
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Fuzzy|Term")
+        float Evaluate(float X) const;
 };

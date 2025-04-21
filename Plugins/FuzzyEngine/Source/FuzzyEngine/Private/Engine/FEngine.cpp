@@ -18,24 +18,27 @@ UFEngine::UFEngine()
 
 float UFEngine::Evaluate()
 {
-	TMap<float, float> OutputSamples;
+    TMap<float, float> OutputSamples;
 
-	for (const TObjectPtr<UFR​ule>& Rule : Rules)
-	{
-		if (!Rule) { continue; }
+    for (UFRule* Rule : Rules)
+    {
+        if (!Rule) { continue; }
 
-		// сила правила
-		const float Strength = Rule->EvaluateAntecedent();
+        const float Strength = Rule->EvaluateAntecedent();
 
-		// активируем выходной терм
-		const TArray<TPair<float, float>>& Samples = Rule->GetConsequentSamples();
-		for (const TPair<float, float>& Pair : Samples)
-		{
-			const float ActivatedMu = Activation->Apply(Strength, Pair.Value);
-			const float AccValue = OutputSamples.FindRef(Pair.Key);
-			OutputSamples.Add(Pair.Key, Accumulation->Accumulate(AccValue, ActivatedMu));
-		}
-	}
+        // активируем терм правила
+        const auto& Samples = Rule->GetConsequentSamples();
+        for (const auto& Pair : Samples)
+        {
+            const float ActivatedMu =
+                IActivation::Execute_Apply(Activation.GetObject(), Strength, Pair.Value);
 
-	return Defuzzification->Defuzzify(OutputSamples);
+            const float Prev = OutputSamples.FindRef(Pair.Key);
+            const float New =
+                IAccumulation::Execute_Accumulate(Accumulation.GetObject(), Prev, ActivatedMu);
+
+            OutputSamples.Add(Pair.Key, New);
+        }
+    }
+    return IDefuzzification::Execute_Defuzzify(Defuzzification.GetObject(), OutputSamples);
 }

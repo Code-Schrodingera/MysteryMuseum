@@ -2,14 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+#include "Rule/FRule.h"
+#include "Variable/FVariable.h"
 #include "Aggregation/IAggregation.h"
 #include "Activation/IActivation.h"
 #include "Accumulation/IAccumulation.h"
 #include "Defuzzification/IDefuzzification.h"
 #include "FEngine.generated.h"
-
-class UFVariable;
-class UFR​ule;
 
 /**
  * Central orchestrator: собирает входы, применяет правила,

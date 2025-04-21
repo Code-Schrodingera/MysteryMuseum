@@ -11,6 +11,6 @@ class IActivation
 {
     GENERATED_BODY()
 public:
-    UFUNCTION(BlueprintNativeEvent, BlueprintPure, Category = "Fuzzy|Activation")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Fuzzy|Activation")
     float Apply(float RuleStrength, float Membership) const;
 };

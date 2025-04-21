@@ -13,7 +13,7 @@ public:
 
     virtual float Apply(float Mu) const override
     {
-        for (const UModifierBase* Mod : Modifiers)
+        for (const UModifier* Mod : Modifiers)
         {
             Mu = Mod ? Mod->Apply(Mu) : Mu;
         }

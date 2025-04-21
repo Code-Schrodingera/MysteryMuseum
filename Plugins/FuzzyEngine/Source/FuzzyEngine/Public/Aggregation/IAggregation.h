@@ -12,6 +12,6 @@ class IAggregation
 {
     GENERATED_BODY()
 public:
-    UFUNCTION(BlueprintNativeEvent, BlueprintPure, Category = "Fuzzy|Aggregation")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Fuzzy|Aggregation")
     float Apply(float A, float B) const;
 };

@@ -9,7 +9,7 @@ class FUZZYENGINE_API UModifier : public UObject
 {
     GENERATED_BODY()
 public:
-    UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Modifier")
+    UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "Fuzzy|Modifier")
     virtual float Apply(float Mu) const { return Mu; }
 
     static UModifier* CreateFromToken(const FString& Token);
