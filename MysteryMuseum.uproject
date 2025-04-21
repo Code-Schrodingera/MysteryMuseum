@@ -216,6 +216,10 @@
 		{
 			"Name": "BlueprintFileUtils",
 			"Enabled": true
+		},
+		{
+			"Name": "FuzzyLibrary",
+			"Enabled": false
 		}
 	]
 }
