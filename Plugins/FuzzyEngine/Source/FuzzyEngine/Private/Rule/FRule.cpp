@@ -6,22 +6,29 @@
 
 float UFRule::EvaluateAntecedent() const
 {
-    // 1) найдём активные нормы: приоритет – собственные, затем дефолт из движка, затем Min/Max
-    const ITNorm* TNorm = TNormOp ? Cast<ITNorm>(TNormOp.GetObject())
-        : GetDefault<UMinTNorm>();
-    const ISNorm* SNorm = SNormOp ? Cast<ISNorm>(SNormOp.GetObject())
-        : GetDefault<UMaxSNorm>();
+    const UObject* TNormObj = TNormOp ? TNormOp.GetObject() : GetDefault<UMinTNorm>();
+    const UObject* SNormObj = SNormOp ? SNormOp.GetObject() : GetDefault<UMaxSNorm>();
 
     float Acc = 1.f;
-    bool bPrevIsOr = false;
+    bool  bPrevIsOr = false;
+
     for (const FClause& Clause : Clauses)
     {
         const float Mu = Clause.Evaluate();
-        Acc = bPrevIsOr ? SNorm->Execute_Apply(SNorm->GetUObject(), Acc, Mu)
-            : TNorm->Execute_Apply(TNorm->GetUObject(), Acc, Mu);
-        bPrevIsOr = Clause.bIsOrWithNext;
+
+        Acc = bPrevIsOr
+            ? ISNorm::Execute_Apply(SNormObj, Acc, Mu)
+            : ITNorm::Execute_Apply(TNormObj, Acc, Mu);
+
+        bPrevIsOr = (Clause.OpWithNext == EOp::OR);
     }
     return Acc;
+}
+
+const TArray<TPair<float, float>>& UFRule::GetConsequentSamples() const
+{
+    if (bSamplesDirty) { UpdateSamples(); }
+    return CachedSamples;
 }
 
 void UFRule::UpdateSamples() const

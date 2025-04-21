@@ -31,6 +31,7 @@ public:
 
 public:
 	float EvaluateAntecedent() const;
+	const TArray<TPair<float, float>>& GetConsequentSamples() const;
 
 private:
 	mutable TArray<TPair<float, float>> CachedSamples;

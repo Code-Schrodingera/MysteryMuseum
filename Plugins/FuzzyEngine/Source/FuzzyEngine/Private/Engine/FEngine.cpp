@@ -6,6 +6,7 @@
 #include "Aggregation/MinAggregation.h"
 #include "Activation/ProdActivation.h"
 #include "Accumulation/MaxAccumulation.h"
+#include "Variable/TermSelector.h"
 #include "Defuzzification/WheelAuctionDefuzzification.h"
 
 UFEngine::UFEngine()
@@ -16,6 +17,7 @@ UFEngine::UFEngine()
     Activation = CreateDefaultSubobject<UProdActivation>(TEXT("ProdAct"));
     Accumulation = CreateDefaultSubobject<UMaxAccumulation>(TEXT("MaxAcc"));
     Defuzzification = CreateDefaultSubobject<UWheelAuctionDefuzzification>(TEXT("WheelDefuzz"));
+    TermSelector = CreateDefaultSubobject<UTermSelector>(TEXT("TermSelector"));
 }
 
 float UFEngine::Evaluate(TArray<UFVariable*> Variables, TArray<UFRule*> Rules)
@@ -27,14 +29,17 @@ float UFEngine::Evaluate(TArray<UFVariable*> Variables, TArray<UFRule*> Rules)
         if (!Rule) { continue; }
         float Strength = Rule->EvaluateAntecedent();
 
-        // Activate and accumulate samples of this rule
-        for (const auto& Pair : Rule->GetConsequentSamples())
+        for (const TPair<float, float>& Pair : Rule->GetConsequentSamples())
         {
-            float ActivatedMu = IActivation::Execute_Apply(Activation.GetObject(), Strength, Pair.Value);
-            float Prev = OutputSamples.FindRef(Pair.Key);
-            float New = IAccumulation::Execute_Accumulate(Accumulation.GetObject(), Prev, ActivatedMu);
+            const float ActivatedMu = IActivation::Execute_Apply(Activation.GetObject(),
+                Strength, Pair.Value);
+
+            const float Prev = OutputSamples.FindRef(Pair.Key);
+            const float New = IAccumulation::Execute_Accumulate(Accumulation.GetObject(),
+                Prev, ActivatedMu);
             OutputSamples.Add(Pair.Key, New);
         }
+
     }
 
     // Convert map → parallel arrays for defuzzification

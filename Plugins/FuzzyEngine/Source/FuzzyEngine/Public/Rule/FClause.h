@@ -14,7 +14,6 @@ enum class EOp : uint8
 	OR
 };
 
-/** Один «Var IS [Mod…] Term» + оператор, связывающий с следующей клауазой */
 USTRUCT(BlueprintType)
 struct FUZZYENGINE_API FClause
 {

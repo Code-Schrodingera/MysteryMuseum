@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+#include "Term/CrispCond.h"
 #include "Variable/TermEntry.h"
 #include "FVariable.generated.h"
 
@@ -15,32 +16,38 @@ class FUZZYENGINE_API UFVariable : public UObject
 public:
     /* ===================  Blueprint API  =================== */
     UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
-        void SetInput(float Crisp) { InputValue = Crisp; }
+    void SetInput(float Crisp) { InputValue = Crisp; }
 
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
-        float GetInput() const { return InputValue; }
+    float GetInput() const { return InputValue; }
 
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
-        float GetUniverseMin() const { return UniverseMin; }
+    float GetUniverseMin() const { return UniverseMin; }
 
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
-        float GetUniverseMax() const { return UniverseMax; }
+    float GetUniverseMax() const { return UniverseMax; }
 
 
-    /** Найти терм по имени */
+    /** Ищем термы */
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
-    TScriptInterface<UTerm> FindTermByName(const FString& Name) const;
+    UTerm* FindTermByName(const FString& Name) const;
 
 
-    /* -------- Фабрики типовых термов -------- */
+    /* Добавляем термы */
     UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
-    TScriptInterface<UTerm> AddTriangularTerm(const FString& Name, float A, float B, float C);
-
-    UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
-    TScriptInterface<UTerm> AddTrapezoidTerm(const FString& Name, float A, float B, float C, float D);
+    UTerm* AddTriangularTerm(const FString& Name, float A, float B, float C);
 
     UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
-    TScriptInterface<UTerm> AddGaussianTerm(const FString& Name, float Mean, float Sigma);
+    UTerm* AddTrapezoidTerm(const FString& Name, float A, float B, float C, float D);
+
+    UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
+    UTerm* AddGaussianTerm(const FString& Name, float Mean, float Sigma);
+
+    UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
+    UTerm* AddRandomTerm(const FString& Name);
+
+    UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
+    UTerm* AddCrispTerm(const FString& Name, float Threshold, CrispCond CrispCondition);
 
 
     /* ----------------  Editable  ---------------- */

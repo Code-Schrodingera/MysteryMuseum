@@ -12,6 +12,7 @@
 #include "Defuzzification/IDefuzzification.h"
 #include "FEngine.generated.h"
 
+class UTermSelector;
 
 UCLASS(BlueprintType, EditInlineNew)
 class FUZZYENGINE_API UFEngine : public UObject
@@ -19,6 +20,9 @@ class FUZZYENGINE_API UFEngine : public UObject
 	GENERATED_BODY()
 
 public:
+
+	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
+	TScriptInterface<UTermSelector> TermSelector;
 
 	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
 	TScriptInterface<UTNorm>  AndTNorm;
@@ -42,5 +46,5 @@ public:
 	UFEngine();
 
 	UFUNCTION(BlueprintCallable, Category = "Fuzzy")
-		float Evaluate(TArray<UFVariable*> Variables, TArray<UFRule*> Rules);
+	float Evaluate(TArray<UFVariable*> Variables, TArray<UFRule*> Rules);
 };
