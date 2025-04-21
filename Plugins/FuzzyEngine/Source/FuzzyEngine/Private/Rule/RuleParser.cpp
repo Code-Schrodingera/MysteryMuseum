@@ -3,13 +3,17 @@
 #include "Rule/FClause.h"
 #include "Variable/FVariable.h"
 #include "Modifier/Modifier.h"
-#include "Term/ITerm.h"
+#include "Norms/TNorms/ProbTNorm.h"
+#include "Norms/SNorms/ProbSNorm.h"
+#include "Term/Term.h"
 
 UFRule* URuleParser::ParseRuleString(
 	const FString& RuleText,
 	const TMap<FString, UFVariable*>& Variables)
 {
 	UFRule* Rule = NewObject<UFRule>();
+	Rule->TNormOp = NewObject<UProbTNorm>(Rule);
+	Rule->SNormOp = NewObject<UProbSNorm>(Rule);
 
 	TArray<FString> Tokens;
 	RuleText.ParseIntoArrayWS(Tokens);
@@ -17,6 +21,7 @@ UFRule* URuleParser::ParseRuleString(
 	int32 Index = 0;
 	auto Peek = [&]() -> FString { return (Index < Tokens.Num()) ? Tokens[Index] : FString(); };
 	auto Next = [&]() -> FString { return (Index < Tokens.Num()) ? Tokens[Index++] : FString(); };
+	auto LastToken = Tokens.Last();
 
 	if (!Next().Equals(TEXT("IF"), ESearchCase::IgnoreCase))
 	{
@@ -77,14 +82,14 @@ UFRule* URuleParser::ParseRuleString(
 	// --- Consequent ---
 	if (Tokens.IsValidIndex(Index + 2))
 	{
-		const FString VarName = Tokens[Index++];
-		const FString IsTok = Tokens[Index++];
-		const FString TermName = Tokens[Index++];
+		FString CoVarName = Tokens[Index++];
+		FString CoIsTok = Tokens[Index++];
+		FString CoTermName = LastToken;
 
-		UFVariable* const* VarPtr = Variables.Find(VarName);
-		if (VarPtr && (*VarPtr)->FindTermByName(TermName))
+		UFVariable* const* VarPtr = Variables.Find(CoVarName);
+		if (VarPtr && (*VarPtr)->FindTermByName(CoTermName))
 		{
-			Rule->ConsequentTerm = (*VarPtr)->FindTermByName(TermName);
+			Rule->ConsequentTerm = (*VarPtr)->FindTermByName(CoTermName);
 		}
 	}
 

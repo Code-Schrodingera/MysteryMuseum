@@ -26,7 +26,7 @@ struct FUZZYENGINE_API FClause
 	TArray<UModifier*> Modifiers;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TScriptInterface<UTerm> Term;
+	UTerm* Term;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EOp OpWithNext = EOp::AND;

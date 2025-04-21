@@ -3,7 +3,7 @@
 #include "ProbTNorm.generated.h"
 
 UCLASS(BlueprintType, EditInlineNew)
-class FUZZYENGINE_API UProbabilisticTNorm : public UObject, public ITNorm
+class FUZZYENGINE_API UProbTNorm : public UObject, public ITNorm
 {
     GENERATED_BODY()
 public:

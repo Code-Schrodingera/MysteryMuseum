@@ -9,7 +9,7 @@
 class UTerm;
 
 /** Нечёткая переменная (универсум float) */
-UCLASS(BlueprintType, EditInlineNew)
+UCLASS(Blueprintable, EditInlineNew, BlueprintType)
 class FUZZYENGINE_API UFVariable : public UObject
 {
     GENERATED_BODY()

@@ -11,23 +11,23 @@ class UFVariable;
 class UTerm;
 
 /** Полное правило MISO: Antecedent -> ConsequentTerm */
-UCLASS(BlueprintType, EditInlineNew)
+UCLASS(Blueprintable, EditInlineNew, BlueprintType)
 class FUZZYENGINE_API UFRule : public UObject
 {
 	GENERATED_BODY()
 
 public:
 	UPROPERTY(EditAnywhere, Category = "Fuzzy|Rule")
-	TScriptInterface<ITNorm> TNormOp;
+	TScriptInterface<UTNorm> TNormOp;
 
 	UPROPERTY(EditAnywhere, Category = "Fuzzy|Rule")
-	TScriptInterface<ISNorm> SNormOp;
+	TScriptInterface<USNorm> SNormOp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FClause> Clauses;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TScriptInterface<UTerm> ConsequentTerm;
+	UTerm* ConsequentTerm;
 
 public:
 	float EvaluateAntecedent() const;

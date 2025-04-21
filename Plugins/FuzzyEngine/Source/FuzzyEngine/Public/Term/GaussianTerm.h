@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Term/ITerm.h"
+#include "Term/Term.h"
 #include "Math/UnrealMathUtility.h"
 #include "GaussianTerm.generated.h"
 
 UCLASS(BlueprintType, EditInlineNew)
-class FUZZYENGINE_API UGaussianTerm : public UObject, public ITerm
+class FUZZYENGINE_API UGaussianTerm : public UTerm
 {
     GENERATED_BODY()
 public:

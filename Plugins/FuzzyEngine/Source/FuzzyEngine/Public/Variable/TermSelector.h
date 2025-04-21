@@ -9,7 +9,7 @@ class UFVariable;
 class UTerm;
 
 
-UCLASS(Blueprintable, BlueprintType, ClassGroup = "Fuzzy|Engine")
+UCLASS(Blueprintable, EditInlineNew, BlueprintType)
 class FUZZYENGINE_API UTermSelector : public UObject
 {
     GENERATED_BODY()

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Term/ITerm.h"
+#include "Term/Term.h"
 #include "Term/CrispCond.h"
 #include "CrispTerm.generated.h"
 
 UCLASS(BlueprintType, EditInlineNew)
-class FUZZYENGINE_API UCrispTerm : public UObject, public ITerm
+class FUZZYENGINE_API UCrispTerm : public UTerm
 {
     GENERATED_BODY()
 public:
@@ -20,13 +20,19 @@ public:
     {
         switch (CrispCondition) {
             case CrispCond::LESS:
+                return X < Threshold ? 1.f : 0.f;
+                break;
+            case CrispCond::LEQ:
                 return X <= Threshold ? 1.f : 0.f;
                 break;
             case CrispCond::EQUAL:
                 return X == Threshold ? 1.f : 0.f;
                 break;
-            case CrispCond::MORE:
+            case CrispCond::MOQ:
                 return X >= Threshold ? 1.f : 0.f;
+                break;
+            case CrispCond::MORE:
+                return X > Threshold ? 1.f : 0.f;
                 break;
             default:
                 return 0.f;

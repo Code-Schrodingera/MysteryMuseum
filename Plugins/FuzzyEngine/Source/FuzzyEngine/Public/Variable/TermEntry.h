@@ -17,5 +17,5 @@ struct FUZZYENGINE_API FTermEntry
 
     /** Экземпляр терма */
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TScriptInterface<UTerm> Term;
+    UTerm* Term;
 };

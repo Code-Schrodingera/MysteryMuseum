@@ -1,6 +1,6 @@
 ﻿#include "Variable/TermSelector.h"
 #include "Variable/FVariable.h"
-#include "Term/ITerm.h"
+#include "Term/Term.h"
 
 FString UTermSelector::SelectTerm(UFVariable* Var, float Crisp) const
 {
@@ -12,8 +12,8 @@ FString UTermSelector::SelectTerm(UFVariable* Var, float Crisp) const
     for (const auto& Entry : Var->Terms)
     {
         if (!Entry.Term) continue;
-        // Evaluate принадлежность этого терма к Crisp
-        float Mu = ITerm::Execute_Evaluate(Entry.Term.GetObject(), Crisp);
+        
+        float Mu = Entry.Term->Evaluate(Crisp);
         if (Mu > BestMu)
         {
             BestMu = Mu;

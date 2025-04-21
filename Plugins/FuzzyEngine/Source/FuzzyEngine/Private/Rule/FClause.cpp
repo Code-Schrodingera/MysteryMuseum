@@ -1,16 +1,16 @@
 #include "Rule/FClause.h"
 #include "Variable/FVariable.h"
-#include "Term/ITerm.h"
+#include "Term/Term.h"
 #include "Modifier/Modifier.h"
 
 float FClause::Evaluate() const
 {
     if (!Variable || !Term) { return 0.f; }
 
-    float Mu = ITerm::Execute_Evaluate(Term.GetObject(), Variable->GetInput());
-    for (UModifier* Mod : Modifiers)
+    float Mu = Term ? Term->Evaluate(Variable->GetInput()) : 0.f;
+    for (UModifier* M : Modifiers)
     {
-        if (Mod) { Mu = Mod->Apply(Mu); }
+        Mu = M->Apply(Mu);
     }
     return Mu;
 }

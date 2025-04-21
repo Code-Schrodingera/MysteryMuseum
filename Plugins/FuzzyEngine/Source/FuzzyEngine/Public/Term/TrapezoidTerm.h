@@ -1,9 +1,9 @@
 #pragma once
-#include "Term/ITerm.h"
+#include "Term/Term.h"
 #include "TrapezoidTerm.generated.h"
 
 UCLASS(BlueprintType, EditInlineNew)
-class FUZZYENGINE_API UTrapezoidTerm : public UObject, public ITerm
+class FUZZYENGINE_API UTrapezoidTerm : public UTerm
 {
     GENERATED_BODY()
 public:

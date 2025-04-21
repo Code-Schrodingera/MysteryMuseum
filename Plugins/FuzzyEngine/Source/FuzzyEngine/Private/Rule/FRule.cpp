@@ -1,6 +1,6 @@
 ﻿#include "Rule/FRule.h"
 #include "Variable/FVariable.h"
-#include "Term/ITerm.h"
+#include "Term/Term.h"
 #include "Norms/TNorms/MinTNorm.h"
 #include "Norms/SNorms/MaxSNorm.h"
 
@@ -37,14 +37,14 @@ void UFRule::UpdateSamples() const
 
     CachedSamples.Empty(100);
 
-    const float MinX = ITerm::Execute_GetUniverseMin(ConsequentTerm.GetObject());
-    const float MaxX = ITerm::Execute_GetUniverseMax(ConsequentTerm.GetObject());
+    const float MinX = ConsequentTerm->GetUniverseMin();
+    const float MaxX = ConsequentTerm->GetUniverseMax();
     const float Step = (MaxX - MinX) / 99.f;
 
     for (int32 i = 0; i < 100; ++i)
     {
         const float X = MinX + i * Step;
-        const float Mu = ITerm::Execute_Evaluate(ConsequentTerm.GetObject(), X);
+        const float Mu = ConsequentTerm->Evaluate(X);
         CachedSamples.Emplace(X, Mu);
     }
     bSamplesDirty = false;
