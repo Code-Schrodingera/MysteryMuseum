@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Term/ITerm.h"
+#include "Math/UnrealMathUtility.h"
 #include "GaussianTerm.generated.h"
 
 UCLASS(BlueprintType, EditInlineNew)
@@ -15,4 +16,7 @@ public:
     {
         return FMath::Exp(-FMath::Square((X - Mean) / Sigma) / 2.f);
     }
+
+    virtual float GetUniverseMin_Implementation() const override { return Mean - 3 * Sigma; }
+    virtual float GetUniverseMax_Implementation() const override { return Mean + 3 * Sigma; }
 };

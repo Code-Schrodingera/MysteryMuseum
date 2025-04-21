@@ -1,62 +1,44 @@
 ﻿#include "Rule/FRule.h"
 #include "Variable/FVariable.h"
 #include "Term/ITerm.h"
-#include "Aggregation/MinAggregation.h"
-#include "Accumulation/MaxAccumulation.h"
+#include "Norms/TNorms/MinTNorm.h"
+#include "Norms/SNorms/MaxSNorm.h"
 
 float UFRule::EvaluateAntecedent() const
 {
-	const UMinAggregation* MinAgg = GetDefault<UMinAggregation>();
-	const UMaxAccumulation* MaxAgg = GetDefault<UMaxAccumulation>();
+    // 1) найдём активные нормы: приоритет – собственные, затем дефолт из движка, затем Min/Max
+    const ITNorm* TNorm = TNormOp ? Cast<ITNorm>(TNormOp.GetObject())
+        : GetDefault<UMinTNorm>();
+    const ISNorm* SNorm = SNormOp ? Cast<ISNorm>(SNormOp.GetObject())
+        : GetDefault<UMaxSNorm>();
 
-	float Acc = 1.f;              // нейтральное для AND
-	EOp PrevOp = EOp::AND;        // см. FClause ниже
-
-	for (const FClause& Clause : Clauses)
-	{
-		const float Mu = Clause.Evaluate();
-
-		if (PrevOp == EOp::AND)
-		{
-			Acc = MinAgg->Apply(Acc, Mu);
-		}
-		else                              // OR
-		{
-			Acc = MaxAgg->Accumulate(Acc, Mu);
-		}
-		PrevOp = Clause.OpWithNext;
-	}
-
-	return Acc;
+    float Acc = 1.f;
+    bool bPrevIsOr = false;
+    for (const FClause& Clause : Clauses)
+    {
+        const float Mu = Clause.Evaluate();
+        Acc = bPrevIsOr ? SNorm->Execute_Apply(SNorm->GetUObject(), Acc, Mu)
+            : TNorm->Execute_Apply(TNorm->GetUObject(), Acc, Mu);
+        bPrevIsOr = Clause.bIsOrWithNext;
+    }
+    return Acc;
 }
 
 void UFRule::UpdateSamples() const
 {
-	if (!ConsequentTerm)
-	{
-		CachedSamples.Empty();
-		return;
-	}
+    if (!ConsequentTerm) { CachedSamples.Empty(); return; }
 
-	CachedSamples.Empty(100);
-	const float MinX = ConsequentTerm->GetUniverseMin();
-	const float MaxX = ConsequentTerm->GetUniverseMax();
-	const float Step = (MaxX - MinX) / 99.f;
+    CachedSamples.Empty(100);
 
-	for (int32 i = 0; i < 100; ++i)
-	{
-		const float X = MinX + i * Step;
-		const float Mu = ITerm::Execute_Evaluate(X);
-		CachedSamples.Add({ X, Mu });
-	}
-	bSamplesDirty = false;
-}
+    const float MinX = ITerm::Execute_GetUniverseMin(ConsequentTerm.GetObject());
+    const float MaxX = ITerm::Execute_GetUniverseMax(ConsequentTerm.GetObject());
+    const float Step = (MaxX - MinX) / 99.f;
 
-const TArray<TPair<float, float>>& UFRule::GetConsequentSamples() const
-{
-	if (bSamplesDirty)
-	{
-		UpdateSamples();
-	}
-	return CachedSamples;
+    for (int32 i = 0; i < 100; ++i)
+    {
+        const float X = MinX + i * Step;
+        const float Mu = ITerm::Execute_Evaluate(ConsequentTerm.GetObject(), X);
+        CachedSamples.Emplace(X, Mu);
+    }
+    bSamplesDirty = false;
 }

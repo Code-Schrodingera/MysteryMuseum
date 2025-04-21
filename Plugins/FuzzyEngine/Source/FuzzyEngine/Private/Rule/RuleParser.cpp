@@ -9,9 +9,6 @@ UFRule* URuleParser::ParseRuleString(
 	const FString& RuleText,
 	const TMap<FString, UFVariable*>& Variables)
 {
-	// *** Мини‑реализация ***:
-	// Для краткости: split'им, ищем IF/THEN, оперируем «AND/OR».
-	// В прод‑коде стоит написать полноценный лексер.
 	UFRule* Rule = NewObject<UFRule>();
 
 	TArray<FString> Tokens;
@@ -45,18 +42,16 @@ UFRule* URuleParser::ParseRuleString(
 			Peek().Equals(TEXT("APPROX"), ESearchCase::IgnoreCase))
 		{
 			const FString ModTok = Next();
-			UModifier* ModObj = UModifier::CreateFromToken(ModTok); // стат. фабрика в вашем классе
+			UModifier* ModObj = UModifier::CreateFromToken(ModTok);
 			if (ModObj)
 			{
 				Clause.Modifiers.Add(ModObj);
 			}
 		}
 
-		// Term
 		const FString TermName = Next();
 		Clause.Term = Clause.Variable->FindTermByName(TermName);
 
-		// Оп с следующей
 		if (Peek().Equals(TEXT("AND"), ESearchCase::IgnoreCase))
 		{
 			Clause.OpWithNext = EOp::AND; Next();
@@ -67,7 +62,7 @@ UFRule* URuleParser::ParseRuleString(
 		}
 		else
 		{
-			Clause.OpWithNext = EOp::AND; // по умолчанию
+			Clause.OpWithNext = EOp::AND;
 		}
 
 		Rule->Clauses.Add(Clause);
@@ -80,7 +75,6 @@ UFRule* URuleParser::ParseRuleString(
 	}
 
 	// --- Consequent ---
-	// «VariableLast IS TermLast»
 	if (Tokens.IsValidIndex(Index + 2))
 	{
 		const FString VarName = Tokens[Index++];

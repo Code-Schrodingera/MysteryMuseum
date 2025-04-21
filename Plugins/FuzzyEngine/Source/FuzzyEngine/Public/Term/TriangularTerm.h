@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Term/ITerm.h"
 #include "TriangularTerm.generated.h"
 
@@ -18,4 +17,6 @@ public:
         if (FMath::IsNearlyEqual(X, B)) return 1.f;
         return (X < B) ? (X - A) / (B - A) : (C - X) / (C - B);
     }
+    virtual float GetUniverseMin_Implementation() const override { return A; }
+    virtual float GetUniverseMax_Implementation() const override { return C; }
 };

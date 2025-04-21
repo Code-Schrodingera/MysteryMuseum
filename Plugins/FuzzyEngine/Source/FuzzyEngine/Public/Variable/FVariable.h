@@ -29,18 +29,18 @@ public:
 
     /** Найти терм по имени */
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
-        UTerm* GetTermByName(const FString& Name) const;
+    TScriptInterface<UTerm> FindTermByName(const FString& Name) const;
 
 
     /* -------- Фабрики типовых термов -------- */
     UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
-        UTerm* AddTriangularTerm(const FString& Name, float A, float B, float C);
+    TScriptInterface<UTerm> AddTriangularTerm(const FString& Name, float A, float B, float C);
 
     UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
-        UTerm* AddTrapezoidTerm(const FString& Name, float A, float B, float C, float D);
+    TScriptInterface<UTerm> AddTrapezoidTerm(const FString& Name, float A, float B, float C, float D);
 
     UFUNCTION(BlueprintCallable, Category = "Fuzzy|Variable")
-        UTerm* AddGaussianTerm(const FString& Name, float Mean, float Sigma);
+    TScriptInterface<UTerm> AddGaussianTerm(const FString& Name, float Mean, float Sigma);
 
 
     /* ----------------  Editable  ---------------- */
