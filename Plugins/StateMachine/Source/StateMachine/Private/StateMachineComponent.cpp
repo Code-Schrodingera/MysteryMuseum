@@ -111,6 +111,11 @@ void UStateMachineComponent::TickState(float DeltaTime)
 
 void UStateMachineComponent::EndState()
 {
+	if (StateHistoryLength <= 0)
+	{
+		return;
+	}
+
 	if (StateHistory.Num() >= StateHistoryLength)
 	{
 		StateHistory.RemoveAt(0);
