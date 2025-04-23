@@ -11,5 +11,5 @@ class IAccumulation
     GENERATED_BODY()
 public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Fuzzy|Accumulation")
-    float Accumulate(float Prev, float New) const;
+    float Accumulate(float A, float B) const;
 };

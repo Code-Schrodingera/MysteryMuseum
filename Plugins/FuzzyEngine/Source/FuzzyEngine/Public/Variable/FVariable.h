@@ -21,12 +21,13 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
     float GetInput() const { return InputValue; }
 
+    /*
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
     float GetUniverseMin() const { return UniverseMin; }
 
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
     float GetUniverseMax() const { return UniverseMax; }
-
+    */
 
     /** Ищем термы */
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Fuzzy|Variable")
@@ -51,11 +52,13 @@ public:
 
 
     /* ----------------  Editable  ---------------- */
+    /*
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Variable")
         float UniverseMin = 0.f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Variable")
         float UniverseMax = 1.f;
+    */
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Variable")
         TArray<FTermEntry> Terms;

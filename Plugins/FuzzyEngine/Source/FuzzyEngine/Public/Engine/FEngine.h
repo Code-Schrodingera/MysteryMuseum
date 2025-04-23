@@ -21,25 +21,25 @@ class FUZZYENGINE_API UFEngine : public UObject
 
 public:
 
-	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Engine")
 	TScriptInterface<UTermSelector> TermSelector;
 
-	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Engine")
 	TScriptInterface<UTNorm>  AndTNorm;
 
-	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Engine")
 	TScriptInterface<USNorm>  OrSNorm;
 
-	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Engine")
 	TScriptInterface<UAggregation> Aggregation;
 
-	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Engine")
 	TScriptInterface<UActivation> Activation;
 
-	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Engine")
 	TScriptInterface<UAccumulation> Accumulation;
 
-	UPROPERTY(EditAnywhere, Category = "Fuzzy|Engine")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Fuzzy|Engine")
 	TScriptInterface<UDefuzzification> Defuzzification;
 
 public:

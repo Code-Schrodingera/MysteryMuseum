@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTerm* ConsequentTerm;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 StepsForRule = 1000;
+
 public:
 	float EvaluateAntecedent() const;
 	const TArray<TPair<float, float>>& GetConsequentSamples() const;

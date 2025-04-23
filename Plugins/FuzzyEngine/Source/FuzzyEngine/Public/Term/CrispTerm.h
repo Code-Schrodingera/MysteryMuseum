@@ -43,5 +43,5 @@ public:
     virtual float GetUniverseMax_Implementation() const override { return ENOUGH_BIG_VALUE; }
 private:
 
-    const int32 ENOUGH_BIG_VALUE = 7658450;
+    const float ENOUGH_BIG_VALUE = 168000;
 };

@@ -35,16 +35,16 @@ void UFRule::UpdateSamples() const
 {
     if (!ConsequentTerm) { CachedSamples.Empty(); return; }
 
-    CachedSamples.Empty(100);
+    CachedSamples.Empty(StepsForRule);
 
     const float MinX = ConsequentTerm->GetUniverseMin();
     const float MaxX = ConsequentTerm->GetUniverseMax();
-    const float Step = (MaxX - MinX) / 99.f;
+    const float Step = (MaxX - MinX) / (float)StepsForRule;
 
-    for (int32 i = 0; i < 100; ++i)
+    for (int32 i = 0; i < StepsForRule; ++i)
     {
-        const float X = MinX + i * Step;
-        const float Mu = ConsequentTerm->Evaluate(X);
+        float X = MinX + i * Step;
+        float Mu = ConsequentTerm->Evaluate(X);
         CachedSamples.Emplace(X, Mu);
     }
     bSamplesDirty = false;
