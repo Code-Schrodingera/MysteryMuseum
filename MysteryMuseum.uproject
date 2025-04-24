@@ -221,5 +221,8 @@
 			"Name": "FuzzyLibrary",
 			"Enabled": false
 		}
+	],
+	"TargetPlatforms": [
+		"WindowsNoEditor"
 	]
 }
