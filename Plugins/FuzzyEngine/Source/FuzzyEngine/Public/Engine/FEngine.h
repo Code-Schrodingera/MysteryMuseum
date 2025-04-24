@@ -46,5 +46,5 @@ public:
 	UFEngine();
 
 	UFUNCTION(BlueprintCallable, Category = "Fuzzy")
-	float Evaluate(TArray<UFVariable*> Variables, TArray<UFRule*> Rules);
+	float Evaluate(TArray<UFRule*> Rules);
 };

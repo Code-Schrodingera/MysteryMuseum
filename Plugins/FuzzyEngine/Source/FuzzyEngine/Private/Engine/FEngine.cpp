@@ -20,7 +20,7 @@ UFEngine::UFEngine()
     TermSelector = CreateDefaultSubobject<UTermSelector>(TEXT("TermSelector"));
 }
 
-float UFEngine::Evaluate(TArray<UFVariable*> Variables, TArray<UFRule*> Rules)
+float UFEngine::Evaluate(TArray<UFRule*> Rules)
 {
     TMap<float, float> OutputSamples;
 
